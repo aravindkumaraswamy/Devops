@@ -1,0 +1,27 @@
+---
+ - hosts: devops-nonprod
+   vars:
+     https_port: 80
+	 max_client_200
+   remote_user: root
+   tasks:
+   - name: Install Apache is the latest Version
+     yum:
+	   name: httpd
+	   State: latest
+   -name: Write the apache Config File
+    template:
+	   src: /srv/httpd.j2
+	   dest: /etc/httpd.conf
+	notify:
+	- restart apache
+   -name: Ensure apache service is running
+    service:
+	  name: httpd
+	  state: started
+	  enabled: yes
+handlers
+   -name: restart apache
+	service:
+	  name: httpd
+	  state: restarted
